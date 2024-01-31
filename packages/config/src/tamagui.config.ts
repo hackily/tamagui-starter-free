@@ -50,6 +50,13 @@ const bodyFont = createInterFont(
     sizeLineHeight: (size) => Math.round(size * 1.1 + (size > 20 ? 10 : 10)),
   }
 )
+const color = {
+  ...tokens.color,
+  white: '#fff',
+  transparent: 'rgba(0,0,0,0)',
+  overlay: 'rgba(0,0,0,0.3)',
+  accentGray: '#e6e6e6',
+}
 
 export const config = createTamagui({
   defaultFont: 'body',
@@ -65,8 +72,23 @@ export const config = createTamagui({
   settings: {
     allowedStyleValues: 'somewhat-strict',
   },
-  themes,
-  tokens,
+  themes: {
+    ...themes,
+    light_custom: {
+      ...themes.light,
+      background: color.white,
+      backgroundAccent: color.accentGray,
+      colorAccent: 'blue',
+    },
+  },
+  tokens: {
+    ...tokens,
+    color: {
+      ...tokens.color,
+      transparent: color.transparent,
+      overlay: color.transparent,
+    },
+  },
   media: createMedia({
     xs: { maxWidth: 660 },
     sm: { maxWidth: 800 },

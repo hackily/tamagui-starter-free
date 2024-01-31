@@ -8,6 +8,12 @@ import {
   useToastController,
   XStack,
   YStack,
+  styled,
+  Theme,
+  useThemeName,
+  useTheme,
+  MyAside,
+  MySheet,
 } from '@my/ui'
 import { ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
 import { useState } from 'react'
@@ -17,38 +23,29 @@ export function HomeScreen() {
   const linkProps = useLink({
     href: '/user/nate',
   })
+  const theme = useTheme()
+  const themeName = useThemeName()
 
   return (
-    <YStack f={1} jc="center" ai="center" p="$4" space>
-      <YStack space="$4" bc="$background">
-        <H1 ta="center">Welcome to Tamagui.</H1>
-        <Paragraph ta="center">
-          Here's a basic starter to show navigating from one screen to another. This screen uses the
-          same code on Next.js and React Native.
+    <YStack f={1} jc="center" ai="center" p="$4" width="100%" height="100%">
+      <YStack space="$4" bc="$background" gap="$2">
+        <H1 ta="center">Click to open the sheet</H1>
+        <Paragraph>
+          The default theme has been set to "light_custom" in the tamagui provider, which provides
+          $backgroundAccent and $colorAccent colors.
         </Paragraph>
-
-        <Separator />
-        <Paragraph ta="center">
-          Made by{' '}
-          <Anchor color="$color12" href="https://twitter.com/natebirdman" target="_blank">
-            @natebirdman
-          </Anchor>
-          ,{' '}
-          <Anchor
-            color="$color12"
-            href="https://github.com/tamagui/tamagui"
-            target="_blank"
-            rel="noreferrer"
-          >
-            give it a ⭐️
-          </Anchor>
+        <Paragraph>
+          The theme returned from useThemeName() in the HomeScreen component is {themeName}
         </Paragraph>
+        <MyAside>
+          <Paragraph>$backgroundAccent: {JSON.stringify(theme.$backgroundAccent)}</Paragraph>
+        </MyAside>
+        <MyAside>
+          <Paragraph color="$colorAccent">
+            $colorAccent: {JSON.stringify(theme.$colorAccent)}
+          </Paragraph>
+        </MyAside>
       </YStack>
-
-      <XStack>
-        <Button {...linkProps}>Link to user</Button>
-      </XStack>
-
       <SheetDemo />
     </YStack>
   )
@@ -59,6 +56,8 @@ function SheetDemo() {
   const [position, setPosition] = useState(0)
   const toast = useToastController()
 
+  const theme = useTheme()
+  const themeName = useThemeName()
   return (
     <>
       <Button
@@ -67,22 +66,21 @@ function SheetDemo() {
         circular
         onPress={() => setOpen((x) => !x)}
       />
-      <Sheet
-        modal
-        animation="medium"
-        open={open}
-        onOpenChange={setOpen}
-        snapPoints={[80]}
-        position={position}
-        onPositionChange={setPosition}
-        dismissOnSnapToBottom
-      >
-        <Sheet.Overlay animation="lazy" enterStyle={{ opacity: 0 }} exitStyle={{ opacity: 0 }} />
-        <Sheet.Frame ai="center" jc="center">
-          <Sheet.Handle />
+      <MySheet open={open}>
+        <YStack gap="$2">
+          <Paragraph>
+            The theme returned from useThemeName() in the HomeScreen component is {themeName}
+          </Paragraph>
+          <MyAside>
+            <Paragraph>$backgroundAccent: {JSON.stringify(theme.$backgroundAccent)}</Paragraph>
+          </MyAside>
+          <MyAside>
+            <Paragraph color="$colorAccent">
+              $colorAccent: {JSON.stringify(theme.$colorAccent)}
+            </Paragraph>
+          </MyAside>
           <Button
             size="$6"
-            circular
             icon={ChevronDown}
             onPress={() => {
               setOpen(false)
@@ -90,9 +88,11 @@ function SheetDemo() {
                 message: 'Just showing how toast works...',
               })
             }}
-          />
-        </Sheet.Frame>
-      </Sheet>
+          >
+            Close
+          </Button>
+        </YStack>
+      </MySheet>
     </>
   )
 }
