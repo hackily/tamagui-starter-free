@@ -10,6 +10,7 @@ import {
   SwitchRouterButton,
   XStack,
   YStack,
+  Progress,
 } from '@my/ui'
 import { ChevronDown, ChevronUp, X } from '@tamagui/lucide-icons'
 import { useState } from 'react'
@@ -24,40 +25,9 @@ export function HomeScreen({ pagesMode = false }: { pagesMode?: boolean }) {
 
   return (
     <YStack f={1} jc="center" ai="center" gap="$8" p="$4" bg="$background">
-      <XStack
-        pos="absolute"
-        w="100%"
-        t="$6"
-        gap="$6"
-        jc="center"
-        fw="wrap"
-        $sm={{ pos: 'relative', t: 0 }}
-      >
-        {Platform.OS === 'web' && (
-          <>
-            <SwitchRouterButton pagesMode={pagesMode} />
-            <SwitchThemeButton />
-          </>
-        )}
-      </XStack>
-
-      <YStack gap="$4">
-        <H1 ta="center" col="$color12">
-          Welcome to Tamagui.
-        </H1>
-        <Paragraph col="$color10" ta="center">
-          Here's a basic starter to show navigating from one screen to another.
-        </Paragraph>
-        <Separator />
-        <Paragraph ta="center">
-          This screen uses the same code on Next.js and React Native.
-        </Paragraph>
-        <Separator />
-      </YStack>
-
-      <Button {...linkProps}>Link to user</Button>
-
-      <SheetDemo />
+        <Progress height={10} backgroundColor="gray" value={10}>
+          <Progress.Indicator backgroundColor="green" />
+        </Progress>
     </YStack>
   )
 }
